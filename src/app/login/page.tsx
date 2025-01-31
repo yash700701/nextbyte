@@ -35,8 +35,8 @@ export default function Page() {
             console.log(user);
             
             const response = await axios.post("/api/users/login", user)
-            console.log("signup success", response.data);
-            router.push("/")
+            console.log("login success", response.data);
+            router.replace("/");
         } catch (error) {
             if (error instanceof AxiosError) {
                 setMessage1("password wrong / internal server error")

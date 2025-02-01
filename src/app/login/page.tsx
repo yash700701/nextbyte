@@ -120,7 +120,7 @@ export default function Page() {
              <Button onClick={handleReset} disabled={loading2} className='w-80 shadow-md border-[1px] border-black mt-2'>
                  {loading2 ? "Submitting..." : "Submit"}
              </Button>
-             <h1 className='text-zinc-600 text-xs text-center w-80 mt-5'>Don't have an account?  
+             <h1 className='text-zinc-600 text-xs text-center w-80 mt-5'>Don&apos;t have an account?  
              <span>
                  <Link href="/signup" className='text-blue-600'>
                   Signup

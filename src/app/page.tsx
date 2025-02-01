@@ -71,9 +71,12 @@ export default function Home() {
       if (image) {
         const formData = new FormData();
         formData.append("file", image);
-        const res = await axios.post("/api/upload", formData);
-        imageUrl = res.data.imageUrl; // Get the uploaded image URL      
+        const res = await axios.post("api/upload", formData);
+        console.log(res.data.imgUrl);
+        imageUrl = res.data.imgUrl; // Get the uploaded image URL      
       }
+      console.log(imageUrl);
+      
 
       const name = data.userName
       const email = data.email

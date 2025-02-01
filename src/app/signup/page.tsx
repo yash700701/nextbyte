@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import axios, { AxiosError } from 'axios'
 import { Toaster } from "@/components/ui/sonner"
 import { toast } from "sonner"
+import Link from 'next/link'
 
 export default function Page() {
 
@@ -90,7 +91,7 @@ export default function Page() {
         <div className='grid lg:grid-cols-2'>
         <div className='mr-2 hidden lg:flex justify-end mt-32 h-screen'>
             <Image
-            className=" h-[684px] w-80 right-0 object-cover"
+            className=" h-[735px] w-80 right-0 object-cover"
             src={f1}
             alt="Vercel logomark"
             />
@@ -160,6 +161,13 @@ export default function Page() {
             <Button onClick={handleSignup} disabled={loading} className='w-80 shadow-md border-[1px] border-black mt-20'>
                 {loading ? "Submitting..." : "Submit"}
             </Button>
+            <h1 className='text-zinc-600 text-xs text-center w-80 mt-5'>Already have an account?  
+            <span>
+                <Link href="/login" className='text-blue-600'>
+                 Login
+                </Link>
+            </span>
+            </h1>
 
         </div>
         </div>

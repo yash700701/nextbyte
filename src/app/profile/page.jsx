@@ -5,50 +5,40 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { Input } from "@/components/ui/input";
 import profilePic from "@/image/user.png"
 import { Button } from "@/components/ui/button"
  
 export default function profile(){
     const router = useRouter();
-    const [id, setId] = useState("")
     const [data, setData] = useState({}) 
-
-    const [updatedData, setUpdatedData] = useState({
-        userName: "",
-        email: "",
-        imgUrl: "",
-    }) 
     const userImage = data.imgUrl
-
-    const [profId, setProfId] = useState("");
         
     const logout = async()=>{
         if(data.userName){
             try {
                 await axios.get("/api/users/logout")
                 toast.success("logout successfull")
-                router.push("/login")
+                router.replace("/login")
             } catch (error) {
                 console.log(error.message);
                 toast.error(error.message)
             }
         }else{
-            router.push("/login")
+            router.replace("/login")
         }
     }
 
-    const update = async()=>{
+    // const update = async()=>{
        
-            try {
-                await axios.post("/api/users/update", updatedData)
-                toast.success("update successfull")
-            } catch (error) {
-                console.log(error.message);
-                toast.error(error.message)
-            }
+    //         try {
+    //             await axios.post("/api/users/update", updatedData)
+    //             toast.success("update successfull")
+    //         } catch (error) {
+    //             console.log(error.message);
+    //             toast.error(error.message)
+    //         }
        
-    }
+    // }
 
     
     useEffect(()=>{
@@ -56,17 +46,11 @@ export default function profile(){
             const res = await axios.get('/api/users/me');
             console.log(res.data.data);
             setData(res.data.data || "");
-            setId(res.data.data.id)
             console.log("Component re-rendered 1")
         }
         getUserDetail();
     },[])
 
-    function goToEditProfile(){
-        setVisible(true);
-    }
-
-    const [visible, setVisible] = useState(false)
 
     return(
         <div className="h-screen text-white w-full bg-zinc-900">
@@ -88,8 +72,8 @@ export default function profile(){
                     </div>
                 </div>
                 <div className="w-full mt-5">
-                <Button onClick={goToEditProfile} className="w-60 mx-8 bg-black hover:text-[#588157]">Edit Profile</Button>
-                <Button onClick={logout} className="w-60 mt-2 mx-8 bg-red-400  hover:text-red-800">Logout</Button>
+                <Button  className="w-60 mx-8 bg-black hover:text-[#588157]">Edit Profile</Button>
+                <Button onClick={logout} className="w-60 mt-2 mx-8 bg-red-400  hover:text-red-800">{data.userName ? "Logout" : "Login"}</Button>
                 </div>
                 <div className="h-80  mt-5">
                     

@@ -131,7 +131,7 @@ export default function Page() {
          </div>
          </div>
        )}
-       {!visible && (
+       {visible && (
         <div className='mt-32 flex flex-col items-center'>
         <h1>Login Successfully</h1>
         <h1>go to <span>

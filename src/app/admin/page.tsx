@@ -181,7 +181,7 @@ function Page() {
         <div className='mt-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4'>
         {profiles.map((user) =>
         user._id ? ( // Only render users with `_id`
-            <div key={user._id} className="mx-auto">
+            <div key={user._id} className="mx-auto pb-10">
             <div className="w-40 bg-white shadow-lg rounded-2xl p-5 text-center">
                 <Image
                 className="w-24 h-24 mx-auto rounded-full object-cover border-4 border-blue-500"

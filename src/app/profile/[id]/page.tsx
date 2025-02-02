@@ -47,7 +47,10 @@ function Page({params}: PageProps) {
         userName: string,
         time: string,
         date: string,
-        description: string,
+        campaignName: string,
+        campaignLocation: string,
+        campaignOutcome: string,
+        campaignExpense: string,
         fileUrl: string,
     }[]
     const [reports, setReports] = useState<reportsType>([]);
@@ -180,8 +183,14 @@ function Page({params}: PageProps) {
                     <h1 className='mb-2'>Submitted By: <span className='bg-blue-200 px-2 rounded-md'>{rep.userName}</span></h1>
                     <p className="text-gray-500 text-sm">📅 {rep.date} | ⏰ {rep.time}</p>
                     {/* <p className="text-gray-600 mt-1 w-80 bg-orange-600">file link - {rep.fileUrl}</p> */}
-                    <h3 className="text-lg font-semibold text-gray-800 mt-1">Task Description</h3>
-                    <p className="text-gray-600 bg-zinc-100 rounded-md p-2 mt-1">{rep.description}</p>
+                    <h3 className="text-sm text-gray-800 mt-1">Campaign Name</h3>
+                    <p className="text-gray-600 bg-zinc-100 rounded-md p-2 mt-1">{rep.campaignName ? rep.campaignName : (<div className='text-red-500'>not filled by user</div>)}</p>
+                    <h3 className="text-sm text-gray-800 mt-1">Campaign Location</h3>
+                    <p className="text-gray-600 bg-zinc-100 rounded-md p-2 mt-1">{rep.campaignLocation ? rep.campaignLocation : (<div className='text-red-500'>not filled by user</div>)}</p>
+                    <h3 className="text-sm text-gray-800 mt-1">Campaign Outcome</h3>
+                    <p className="text-gray-600 bg-zinc-100 rounded-md p-2 mt-1">{rep.campaignOutcome ? rep.campaignOutcome : (<div className='text-red-500'>not filled by user</div>)}</p>
+                    <h3 className="text-sm text-gray-800 mt-1">Campaign Expense</h3>
+                    <p className="text-gray-600 bg-zinc-100 rounded-md p-2 mt-1">{rep.campaignExpense? rep.campaignExpense : (<div className='text-red-500'>not filled by user</div>)}</p>
                     </div>
                 </div>
                 </div>

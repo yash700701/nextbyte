@@ -10,17 +10,23 @@ const reportSchema = new mongoose.Schema({
         required: true,
         unique:false,
     },
-    description: {
+    campaignName: {
         type: String,
-        required: true,
+    },
+    campaignLocation: {
+        type: String,
+    },
+    campaignOutcome: {
+        type: String,
+    },
+    campaignExpense: {
+        type: String,
     },
     date: {
         type: String,
-    
     },
     time: {
         type: String,
-       
     },
     fileUrl: {
         type: String,

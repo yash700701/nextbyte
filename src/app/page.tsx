@@ -3,29 +3,47 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Toaster } from "@/components/ui/sonner"
 import { toast } from "sonner"
+import * as React from "react"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
 
 export default function Home() {
 
   const [visibleAnim, setVisibleAnim] = useState(true);
-  const [visibleForm, setVisibleForm] = useState(false);
   const [visiblePrevReport, setVisiblePrevReport] = useState(false);
   const [image, setImage] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [description, setDescription] = useState("")
+  const [campaignName, setCampaignName] = useState("")
+  const [campaignLocation, setCampaignLocation] = useState("")
+  const [campaignOutcome, setCampaignOutcome] = useState("")
+  const [campaignExpense, setCampaignExpense] = useState("")
+  const notFilledMessage = "not filled by user"
 
   type prevReportType = {
     date: string;
     time: string;
-    description: string;
+    campaignName: string;
+    campaignLocation: string;
+    campaignOutcome: string;
+    campaignExpense: string;
     fileUrl: string;
   }[];
   
@@ -61,7 +79,7 @@ export default function Home() {
   };
 
   const handleUpload = async () => {
-    if (!description) return toast("Please write a description");
+    if (!campaignOutcome) return toast("Please write a description");
   
     setLoading(true);
   
@@ -87,10 +105,13 @@ export default function Home() {
       console.log(date);
       
       
-      const response = await axios.post("/api/report/createReport", {name, email, time, date, description, imageUrl});
+      const response = await axios.post("/api/report/createReport", {name, email, time, date, campaignName, campaignLocation, campaignOutcome, campaignExpense, imageUrl});
       toast("Report Submitted Successfully!");
       console.log(response.data);
-      setDescription("")
+      setCampaignExpense("")
+      setCampaignLocation("")
+      setCampaignName("")
+      setCampaignOutcome("")
       setImage(null)
       setPreview(null)
 
@@ -123,54 +144,86 @@ export default function Home() {
     <div className="w-full ">
     <h1 className="text-6xl font-bold pt-20 px-5 text-black">Welcome Back <span className="text-blue-500">{data.userName}</span></h1>
     <h1 className="text-4xl font-bold pt-5 px-5 text-black">Submit Todays Report Here</h1>
-    <Button onClick={()=> {setVisiblePrevReport(false) ; setVisibleAnim(false) ; setVisibleForm(true)}} className="ml-5 mt-2 text-blue-500 w-60 hover:bg-zinc-50 bg-zinc-50 hover:shadow-md border-[1px]">Create Report</Button>
-    <Button onClick={()=> {setVisibleForm(false) ; setVisibleAnim(false) ; setVisiblePrevReport(true) ; fetchPrevReports() }} className="ml-5 mt-2 text-blue-500 w-60 bg-zinc-50 hover:bg-zinc-50 hover:shadow-md border-[1px]">Previous Reports</Button>
+    <Drawer>
+      <DrawerTrigger asChild>
+        <Button className="ml-5 mt-2 text-blue-500 w-60 bg-zinc-50 hover:bg-zinc-50 hover:shadow-md border-[1px]" variant="outline">Create Report</Button>
+      </DrawerTrigger>
+      <DrawerContent>
+        <div className="mx-auto h-[650px] w-full max-w-sm">
+          <DrawerHeader>
+            <DrawerTitle>Create Campaign Report</DrawerTitle>
+            {/* <DrawerDescription>Set your daily activity goal.</DrawerDescription> */}
+          </DrawerHeader>
+          <div className="">
+          <div className=" backdrop-blur-sm p-4 max-w-md">
+            <Input
+            placeholder="Campaign Name"
+            className="bg-white mb-2"
+            value={campaignName}
+            onChange={(e) => setCampaignName(e.target.value)}
+            />
+            <Input
+            placeholder="Campaign Location"
+            className="bg-white mb-2"
+            value={campaignLocation}
+            onChange={(e) => setCampaignLocation(e.target.value)}
+            />
+            <Textarea
+              className="bg-white mb-2"
+              placeholder="Campaign Outcome *"
+              value={campaignOutcome}
+              onChange={(e) => setCampaignOutcome(e.target.value)}
+            ></Textarea>
+            <Input
+            placeholder="Campaign Expense"
+            className="bg-white mb-2"
+            value={campaignExpense}
+            onChange={(e) => setCampaignExpense(e.target.value)}
+            />
+            <input
+              type="file"
+              name="file"
+              accept="image/*"
+              onChange={handleFileChange}
+              className="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-white focus:outline-none"
+              // onChange={(e) => setFile(e.target.files[0])}
+            />
+           <div className="w-40 h-40 rounded-lg bg-slate-50 mt-5">
+           {preview && 
+            <Image 
+            src={preview} 
+            alt="Preview" 
+            className="w-40 mt-5 h-40 object-cover rounded-lg mb-3" 
+            width={80}
+            height={80}
+            unoptimized
+            />}
+           </div>
+        </div>
+          </div>
+          <DrawerFooter>
+          <Button onClick={handleUpload} disabled={loading} className="mt-3 w-full ">
+          {loading ? "Uploading..." : "Upload"}
+          </Button>
+            <DrawerClose asChild>
+              <Button variant="outline">Cancel</Button>
+            </DrawerClose>
+          </DrawerFooter>
+        </div>
+      </DrawerContent>
+    </Drawer>
+
+
+    <Button onClick={()=> { setVisibleAnim(false) ; setVisiblePrevReport(true) ; fetchPrevReports() }} className="ml-5 mt-2 text-blue-500 w-60 bg-zinc-50 hover:bg-zinc-50 hover:shadow-md border-[1px]">Previous Reports</Button>
     </div>
     {visibleAnim && (
       <div className="w-full mt-10 h-96 ">
       <video className="" autoPlay loop muted src="/videos/anime.mp4"></video>
     </div>
     )}
-   {visibleForm && (
-    <div className="w-full mt-10 py-10 bg-blue-500 flex items-center justify-center relative ">
   
-    {/* Overlay Content */}
-    <div className=" left-5 backdrop-blur-sm p-4 rounded-lg shadow-lg w-[90%] max-w-md">
-      <textarea
-        className="p-2 w-full rounded-lg text-cyan-800 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-        placeholder="Task Description *"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-      ></textarea>
-
-      <input
-        type="file"
-        name="file"
-        accept="image/*"
-        onChange={handleFileChange}
-        className="mt-2 block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-white focus:outline-none"
-        // onChange={(e) => setFile(e.target.files[0])}
-      />
-       {preview && 
-       <Image 
-       src={preview} 
-       alt="Preview" 
-       className="w-40 mt-5 h-40 object-cover rounded-lg mb-3" 
-       width={80}
-       height={80}
-       unoptimized
-       />}
-      {/* <Button className="mt-3 w-full text-black hover:text-cyan-800 bg-white">
-        Submit Report
-      </Button> */}
-      <Button onClick={handleUpload} disabled={loading} className="mt-3 w-full text-black hover:text-cyan-800 hover:bg-white bg-white">
-          {loading ? "Uploading..." : "Upload"}
-      </Button>
-    </div>
-  </div>
-   )}
    {visiblePrevReport && (
-    <div className="w-full mt-10 py-10 bg-blue-500 grid sm:grid-cols-3 gap-3 items-center justify-center  ">
+    <div className="w-full mt-10 py-10 bg-zinc-100 grid sm:grid-cols-3 gap-3 items-center justify-center  ">
     {
       prevReport.map((rep, index)=>(
         <div key={index} className="mx-auto">
@@ -207,8 +260,14 @@ export default function Home() {
             <div className="mt-3">
               <p className="text-gray-500 text-sm">📅 {rep.date} | ⏰ {rep.time}</p>
               {/* <p className="text-gray-600 mt-1 w-80 bg-orange-600">file link - {rep.fileUrl}</p> */}
-              <h3 className="text-lg bg-zinc-100 rounded-md p-2 font-semibold text-gray-800 mt-1">Task Description</h3>
-              <p className="text-gray-600 mt-1">{rep.description}</p>
+              <h3 className="text-sm text-gray-800 mt-1">Campaign Name</h3>
+              <p className="text-gray-600 rounded-md p-2 bg-zinc-100 mt-1">{rep.campaignName ? rep.campaignName : ( <div className="text-red-500">{notFilledMessage}</div> )}</p>
+              <h3 className="text-sm text-gray-800 mt-1">Campaign Location</h3>
+              <p className="text-gray-600 rounded-md p-2 bg-zinc-100 mt-1">{rep.campaignLocation ? rep.campaignLocation : ( <div className="text-red-500">{notFilledMessage}</div> )}</p>
+              <h3 className="text-sm text-gray-800 mt-1">Campaign Outcome</h3>
+              <p className="text-gray-600 rounded-md p-2 bg-zinc-100 mt-1">{rep.campaignOutcome ? rep.campaignOutcome : ( <div className="text-red-500">{notFilledMessage}</div> )}</p>
+              <h3 className="text-sm text-gray-800 mt-1">Campaign Expense</h3>
+              <p className="text-gray-600 rounded-md p-2 bg-zinc-100 mt-1">{rep.campaignExpense ? rep.campaignExpense : ( <div className="text-red-500">{notFilledMessage}</div> )}</p>
             </div>
           </div>
         </div>

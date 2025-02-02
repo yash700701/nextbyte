@@ -7,15 +7,18 @@ connect();
 export async function POST(request: NextRequest){
     try { 
         const reqBody = await request.json()
-        const { name, email, time, date,  description, imageUrl } = reqBody
+        const { name, email, time, date, campaignName, campaignLocation, campaignOutcome, campaignExpense, imageUrl } = reqBody
         
         // create new report
         const newReport = new Reports({
             userName: name,
-            email: email,
-            description: description,
-            time: time, 
-            date: date,
+            email,
+            campaignName,
+            campaignExpense,
+            campaignOutcome,
+            campaignLocation,
+            time, 
+            date,
             fileUrl: imageUrl,
         })
          

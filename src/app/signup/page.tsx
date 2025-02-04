@@ -41,7 +41,7 @@ export default function Page() {
     const [exist, setExist] = useState("")
     const [loading, setLoading] = useState(false);
     const handleSignup = async()=>{
-       if(key === process.env.NEXT_PUBLIC_SIGNUP_KEY){
+       if(key.toLowerCase().trim() === process.env.NEXT_PUBLIC_SIGNUP_KEY){
         try {  
             setExist("")
             setMessage("")          

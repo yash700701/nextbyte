@@ -75,7 +75,7 @@ function Page() {
     },[isAdmin])
     
     function submit(){
-       if(inputKey === process.env.NEXT_PUBLIC_ADMIN_KEY){
+       if(inputKey.toLowerCase().trim() === process.env.NEXT_PUBLIC_ADMIN_KEY){
         async function createAdmin() {
             try {
                 await axios.post("/api/users/admin", {inputKey})

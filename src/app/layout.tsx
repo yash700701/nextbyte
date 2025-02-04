@@ -4,12 +4,13 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Image from "next/image";
-// import logo from '@/image/logo.png'
-import menu from '@/image/menu.png'
-import person from '@/image/person.png'
+import logo from '@/image/aasraLogo.png'
+import menu from '@/image/menub.png'
+import person from '@/image/user.png'
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,6 +42,14 @@ export default function RootLayout({
     router.push("/profile")
   }
 
+  const [url, setUrl] = useState("");
+  useEffect(()=>{
+    const getUserDetail = async()=>{
+        const res = await axios.get('/api/users/me');
+        setUrl(res.data.data.imgUrl);
+    }
+    getUserDetail();
+},[])
 
   return (
     <html lang="en">
@@ -50,17 +59,16 @@ export default function RootLayout({
 
 <header>
         <div className="w-full  z-10 fixed top-0 h-14 ">
-            <div className="w-full h-14 items-center flex justify-between bg-zinc-950 shadow-blue-500 shadow-sm">
-                <div className="text-3xl text-white px-5 font-semibold">
-                    {/* <Image
+            <div className="w-full h-14 items-center flex justify-between bg-white shadow-blue-500 shadow-sm">
+                <div className="px-2">
+                    <Image
                     src={logo} 
                     alt="logo"
-                    className="ml-5 lg:w-52 w-32"
+                    className="h-10 rounded-sm w-28"
                     priority
-                    /> */}
-                    LOGO
+                    />
                 </div>
-                <div className="hidden text-white lg:flex">
+                <div className="hidden text-black lg:flex">
                   <ul className="flex gap-8">
                     <li className="hover:text-zinc-500">
                       <Link href="/">
@@ -87,17 +95,20 @@ export default function RootLayout({
                 <div className="flex gap-3 mr-5 ">
                     <button onClick={profilePage}>
                     <Image
-                    src={person} 
+                    src={url || person} 
                     alt="user"
-                    className="w-8"
-                    priority 
+                    className="w-10 h-10 object-cover rounded-full"
+                    width={80}
+                    height={80}
+                    unoptimized
+                    priority
                     />
                     </button>
                     <button onClick={toggleMenu} className="lg:hidden">
                         <Image
                         src={menu} 
                         alt="menu"
-                        className="w-8"
+                        className="w-11"
                         priority 
                         />
                     </button>

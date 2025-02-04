@@ -140,10 +140,11 @@ export default function Home() {
 
   //bg-[#ffe0e0]
   return (
-   <div className="bg-white pt-14 w-full">
+   <>
+   <div className="bg-zinc-950 pt-14 w-full">
     <div className="w-full ">
-    <h1 className="text-6xl font-bold pt-20 px-5 text-black">Welcome Back <span className="text-blue-500">{data.userName}</span></h1>
-    <h1 className="text-4xl font-bold pt-5 px-5 text-black">Submit Todays Report Here</h1>
+    <h1 className="text-6xl font-bold pt-20 px-5 text-zinc-100">Welcome Back <span className="text-blue-500">{data.userName}</span></h1>
+    <h1 className="text-4xl font-bold pt-5 pb-3 px-5 text-zinc-100">Submit Todays Report Here</h1>
     <Drawer>
       <DrawerTrigger asChild>
         <Button className="ml-5 mt-2 text-blue-500 w-60 bg-zinc-50 hover:bg-zinc-50 hover:shadow-md border-[1px]" variant="outline">Create Report</Button>
@@ -216,10 +217,12 @@ export default function Home() {
 
     <Button onClick={()=> { setVisibleAnim(false) ; setVisiblePrevReport(true) ; fetchPrevReports() }} className="ml-5 mt-2 text-blue-500 w-60 bg-zinc-50 hover:bg-zinc-50 hover:shadow-md border-[1px]">Previous Reports</Button>
     </div>
+
+
     {visibleAnim && (
-      <div className="w-full mt-10 h-96 ">
+      <div className="w-full mt-10">
       <video className="" autoPlay loop muted src="/videos/anime.mp4"></video>
-    </div>
+      </div>
     )}
   
    {visiblePrevReport && (
@@ -277,5 +280,24 @@ export default function Home() {
    )}
    <Toaster position="top-center" />
    </div>
+   <footer className="bg-zinc-950 text-zinc-300 py-8 sm:px-10 ">
+      <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
+        {/* Company Info */}
+        <div className="text-center md:text-left">
+          <h2 className="text-xl text-zinc-100 font-semibold">AASRA FOUNDATION JAIPUR</h2>
+          <p>Office Address :
+          20 Devi nagar,mission compound, hathroi, near Ajmeri puliya c scheme Jaipur, Rajasthan</p>
+          <p>Email: info@aasrafoundationjaipur.org</p>
+          <p>Phone: +91-7014015902</p>
+        </div>
+
+        {/* Copyright */}
+        <div className="mt-4 md:mt-0">
+          <p>&copy; {new Date().getFullYear()} <span className="text-blue-400"><a href="https://www.linkedin.com/company/byteedu/posts/?feedView=all&viewAsMember=true">ByteEdu</a></span> All rights reserved.</p>
+          <p>This website is created by <span className="text-blue-400"><a href="https://www.linkedin.com/in/yash-tiwari20/">Yash</a></span></p>
+        </div>
+      </div>
+    </footer>
+   </>
   );
 }
